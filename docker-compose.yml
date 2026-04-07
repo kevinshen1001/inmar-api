@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: inmar-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: inmar
+      POSTGRES_USER: inmar
+      POSTGRES_PASSWORD: inmar
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inmar -d inmar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - inmar-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inmar-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/inmar
+      DB_USERNAME: inmar
+      DB_PASSWORD: inmar
+      SERVER_PORT: 8080
+      JWT_SECRET: inmar-super-secret-jwt-key-change-in-production
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: password
+      USER_USERNAME: user
+      USER_PASSWORD: password
+    ports:
+      - "8080:8080"
+    volumes:
+      - api_logs:/app/logs
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - inmar-network
+
+volumes:
+  postgres_data:
+  api_logs:
+
+networks:
+  inmar-network:
+    driver: bridge

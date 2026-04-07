@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    show-sql: true
+  flyway:
+    enabled: true
+
+app:
+  security:
+    jwt:
+      secret: test-secret-key-for-testing-purposes-only-not-for-prod
+      expiration-ms: 3600000
+    admin:
+      username: admin
+      password: admin123
+    user:
+      username: user
+      password: user123
+
+logging:
+  level:
+    com.inmar: DEBUG
+    org.springframework.security: WARN
