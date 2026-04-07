@@ -160,44 +160,6 @@ open build/reports/tests/test/index.html
 
 ---
 
-## Project Structure
-
-```
-src/
-├── main/kotlin/com/inmar/metadata/
-│   ├── InmarMetadataApplication.kt
-│   ├── config/
-│   │   ├── SecurityConfig.kt
-│   │   └── GlobalExceptionHandler.kt
-│   ├── controller/
-│   │   ├── Controllers.kt      # Location, Department, Category, Subcategory, SKU
-│   │   └── AuthController.kt
-│   ├── dto/Dtos.kt
-│   ├── entity/Entities.kt
-│   ├── filter/TraceIdFilter.kt
-│   ├── repository/Repositories.kt
-│   ├── security/SecurityServices.kt
-│   └── service/Services.kt
-├── main/resources/
-│   ├── application.yml
-│   ├── logback-spring.xml
-│   └── db/migration/
-│       ├── V1__initial_schema.sql
-│       └── V2__seed_data.sql
-└── test/kotlin/com/inmar/metadata/
-    ├── integration/
-    │   ├── BaseIntegrationTest.kt
-    │   ├── LocationControllerIntegrationTest.kt
-    │   ├── DepartmentControllerIntegrationTest.kt
-    │   ├── CategorySubcategoryIntegrationTest.kt
-    │   └── SkuSearchIntegrationTest.kt       # includes AuthIntegrationTest
-    └── service/
-        ├── ServiceUnitTests.kt
-        └── JwtServiceTest.kt
-```
-
----
-
 ## Environment Variables
 
 | Variable | Default | Description |
